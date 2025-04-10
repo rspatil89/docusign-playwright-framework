@@ -1,0 +1,42 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: End-to-End DocuSign Flow
+- Location: C:\repo\docu-sign-poc\docusign-playwright\tests\docusign.e2e.spec.ts:9:5
+
+# Error details
+
+```
+Error: page.waitForURL: Target page, context or browser has been closed
+=========================== logs ===========================
+waiting for navigation to "**/send/home" until "load"
+============================================================
+    at LoginPage.login (C:\repo\docu-sign-poc\docusign-playwright\pages\loginPage.ts:12:21)
+    at C:\repo\docu-sign-poc\docusign-playwright\tests\docusign.e2e.spec.ts:14:3
+```
+
+# Test source
+
+```ts
+   1 | import { Page } from '@playwright/test';
+   2 |
+   3 | export class LoginPage {
+   4 |   constructor(private page: Page) {}
+   5 |
+   6 |   async login(username: string, password: string) {
+   7 |     await this.page.goto('https://account.docusign.com');
+   8 |     await this.page.fill('[data-qa="username"]', username);
+   9 |     await this.page.click('[data-qa="submit-username"]');
+  10 |     await this.page.fill('[data-qa="password"]', password);
+  11 |     await this.page.click('[data-qa="submit-password"]');
+> 12 |     await this.page.waitForURL('**/send/home');
+     |                     ^ Error: page.waitForURL: Target page, context or browser has been closed
+  13 |   }
+  14 | }
+  15 |
+```
